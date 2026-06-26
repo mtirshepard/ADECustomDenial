@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADE Denial Letter Customization Prototype</title>
+  <style>
+    :root {
+      --ade-blue: #002d72;
+      --ade-blue-dark: #001242;
+      --ade-blue-soft: #d8ecfb;
+      --ade-cyan: #00819b;
+      --ade-green-bar: #70db76;
+      --ade-green: #177c21;
+      --ade-green-soft: #e0f5dc;
+      --ade-red: #910048;
+      --ade-red-soft: #fde2e6;
+      --ade-yellow: #cb6015;
+      --ade-yellow-soft: #fff3d7;
+      --ade-gray-50: #fafafa;
+      --ade-gray-100: #f5f5f5;
+      --ade-gray-200: #eeeeee;
+      --ade-gray-300: #dcdcdc;
+      --ade-gray-500: #777777;
+      --ade-gray-700: #4f4f4f;
+      --ade-gray-900: #151515;
+      --shadow-soft: 0 14px 28px rgba(0, 18, 66, 0.08);
+      --radius: 8px;
+      --radius-sm: 6px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Lato, "Segoe UI", Arial, sans-serif;
+      color: var(--ade-gray-700);
+      background: #f2f4f7;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .brand-type,
+    .page-name,
+    .section-title,
+    .letter-brand {
+      margin: 0;
+      font-family: Montserrat, "Segoe UI", Arial, sans-serif;
+      color: var(--ade-gray-900);
+      font-weight: 600;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .ade-nav {
+      min-height: 48px;
+      background: var(--ade-green-bar);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 6px 16px 6px 10px;
+      color: #00244a;
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .agency-lockup {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 280px;
+    }
+
+    .seal {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.72rem;
+      background:
+        radial-gradient(circle at 50% 42%, #f9cf72 0 22%, #cf5522 23% 45%, #72205b 46% 67%, #ffffff 68% 75%, #1c5aa6 76% 100%);
+      box-shadow: 0 0 0 1px rgba(0, 45, 114, 0.24);
+    }
+
+    .agency-name {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .school-year {
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .top-search {
+      position: relative;
+      min-width: 230px;
+      max-width: 310px;
+      flex: 1;
+    }
+
+    .top-search input {
+      width: 100%;
+      height: 34px;
+      border: 2px solid #005aa9;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #00325f;
+      padding: 0 14px 0 42px;
+      outline: 0;
+      font-weight: 600;
+    }
+
+    .top-search span {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      width: 13px;
+      height: 13px;
+      border: 2px solid #005aa9;
+      border-radius: 50%;
+      transform: translateY(-58%);
+    }
+
+    .top-search span::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 2px;
+      background: #005aa9;
+      right: -7px;
+      bottom: -4px;
+      transform: rotate(45deg);
+      border-radius: 2px;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      white-space: nowrap;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .nav-menu button {
+      border: 0;
+      background: transparent;
+      color: #00244a;
+      padding: 8px 0;
+      font-weight: 700;
+    }
+
+    .user-dot {
+      width: 23px;
+      height: 23px;
+      border: 2px solid #005aa9;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .user-dot::before,
+    .user-dot::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #005aa9;
+      border-radius: 999px;
+    }
+
+    .user-dot::before {
+      top: 4px;
+      width: 6px;
+      height: 6px;
+    }
+
+    .user-dot::after {
+      bottom: 4px;
+      width: 12px;
+      height: 6px;
+    }
+
+    .page {
+      min-height: calc(100vh - 48px);
+      padding: 16px 14px 28px;
+    }
+
+    .person-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .person-name {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .person-name h1 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      font-weight: 400;
+      line-height: 1.04;
+      color: #222222;
+    }
+
+    .person-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      color: #5f5f5f;
+      font-weight: 700;
+      font-size: 0.98rem;
+    }
+
+    .meta-dot {
+      display: inline-flex;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 3px solid #b33278;
+      vertical-align: -2px;
+      margin-left: 4px;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 27px;
+      padding: 3px 10px;
+      border-radius: var(--radius-sm);
+      border: 2px solid #00809a;
+      background: #d6f2f1;
+      color: #004f63;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .ghost-chip {
+      border-color: #bababa;
+      color: #999999;
+      background: #f6f6f6;
+    }
+
+    .notes-button,
+    .outline-button,
+    .primary-button,
+    .quiet-button,
+    .danger-button,
+    .icon-button {
+      min-height: 34px;
+      border-radius: 999px;
+      padding: 7px 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2px solid var(--ade-blue);
+      background: #ffffff;
+      color: var(--ade-blue);
+    }
+
+    .primary-button {
+      background: var(--ade-blue);
+      color: #ffffff;
+      box-shadow: 0 6px 16px rgba(0, 45, 114, 0.18);
+    }
+
+    .quiet-button {
+      border-color: var(--ade-gray-300);
+      color: var(--ade-gray-700);
+      background: #ffffff;
+    }
+
+    .danger-button {
+      color: var(--ade-red);
+      border-color: var(--ade-red);
+      background: #ffffff;
+    }
+
+    .icon-button {
+      width: 34px;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    .button-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .service-card,
+    .denial-shell,
+    .panel,
+    .modal-card,
+    .toast,
+    .preview-paper {
+      border: 1px solid #cfcfcf;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .service-card {
+      padding: 14px 14px 24px;
+      margin-bottom: 18px;
+    }
+
+    .service-header,
+    .denial-header,
+    .panel-header,
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .service-header h2 {
+      font-weight: 400;
+      font-size: 1.65rem;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(140px, 1fr));
+      gap: 18px;
+      margin-top: 14px;
+      padding: 0 24px 10px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 4px;
+      color: #6b6b6b;
+      font-weight: 800;
+      font-size: 0.83rem;
+    }
+
+    .field-value {
+      color: #555555;
+      font-size: 0.9rem;
+    }
+
+    .evaluation-row {
+      display: grid;
+      grid-template-columns: minmax(280px, 660px) 1fr auto;
+      align-items: end;
+      gap: 16px;
+      margin: 0 0 12px;
+    }
+
+    .select-shell label {
+      display: block;
+      color: #585858;
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    select,
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      min-height: 35px;
+      border: 1px solid #cfcfcf;
+      border-radius: 4px;
+      padding: 7px 9px;
+      color: #333333;
+      background: #ffffff;
+      outline: 0;
+    }
+
+    textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    select:focus,
+    input:focus,
+    textarea:focus,
+    [contenteditable="true"]:focus {
+      border-color: #005aa9;
+      box-shadow: 0 0 0 3px rgba(0, 90, 169, 0.14);
+    }
+
+    .denial-shell {
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 12px 12px 0;
+      border-bottom: 1px solid #dddddd;
+      background: #fafafa;
+    }
+
+    .tab {
+      min-height: 33px;
+      border: 1px solid transparent;
+      border-bottom: 0;
+      border-radius: 4px 4px 0 0;
+      background: transparent;
+      padding: 8px 14px;
+      color: var(--ade-blue);
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: #ffffff;
+      color: #222222;
+      border-color: #dddddd;
+      margin-bottom: -1px;
+    }
+
+    .denial-content {
+      padding: 14px 12px 18px;
+    }
+
+    .denial-header {
+      margin-bottom: 12px;
+    }
+
+    .denial-header h2 {
+      font-size: 1.25rem;
+    }
+
+    .alert {
+      border-radius: 0;
+      padding: 8px 10px;
+      margin: 0 0 10px;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    .alert-danger {
+      color: #94424c;
+      background: #fde5e8;
+    }
+
+    .alert-info {
+      color: #0a4e62;
+      background: #e0f4f7;
+      border-left: 4px solid var(--ade-cyan);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(260px, 340px) minmax(430px, 1fr) minmax(270px, 330px);
+      gap: 14px;
+      align-items: start;
+      margin-top: 14px;
+    }
+
+    .panel {
+      min-width: 0;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      min-height: 53px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--ade-gray-200);
+      background: #ffffff;
+    }
+
+    .panel-header h3 {
+      font-size: 1.05rem;
+    }
+
+    .panel-kicker {
+      color: var(--ade-cyan);
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .panel-body {
+      padding: 13px 14px 15px;
+    }
+
+    .case-switcher {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .reason-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .reason-actions {
+      margin-top: 11px;
+    }
+
+    .reason-item {
+      border: 1px solid var(--ade-gray-300);
+      border-radius: var(--radius-sm);
+      background: #ffffff;
+      padding: 10px;
+    }
+
+    .reason-title-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .reason-title-row input {
+      margin-top: 3px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--ade-blue);
+    }
+
+    .reason-name {
+      color: #242424;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .reason-meta {
+      margin-top: 5px;
+      color: var(--ade-gray-500);
+      font-size: 0.82rem;
+    }
+
+    .reason-item.selected {
+      border-color: #72a2cf;
+      box-shadow: inset 4px 0 0 var(--ade-blue);
+    }
+
+    .reason-item.custom {
+      box-shadow: inset 4px 0 0 var(--ade-yellow);
+    }
+
+    .mini-button {
+      min-height: 28px;
+      border: 1px solid var(--ade-blue);
+      color: var(--ade-blue);
+      background: #ffffff;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .tone-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tone-button {
+      min-height: 32px;
+      border: 1px solid #cfcfcf;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--ade-gray-700);
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    .tone-button.active {
+      border-color: var(--ade-blue);
+      background: var(--ade-blue);
+      color: #ffffff;
+    }
+
+    .doc-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--ade-gray-200);
+      background: #ffffff;
+    }
+
+    .doc-toolbar h3 {
+      font-size: 1.08rem;
+    }
+
+    .doc-frame {
+      background: #e9edf2;
+      padding: 18px;
+      min-height: 720px;
+      overflow: auto;
+    }
+
+    .doc-paper {
+      width: min(100%, 820px);
+      min-height: 970px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #dddddd;
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.16);
+      padding: clamp(30px, 5vw, 54px);
+      color: #404a57;
+      outline: 0;
+    }
+
+    .doc-paper p,
+    .preview-paper p {
+      margin: 0 0 14px;
+    }
+
+    .letterhead {
+      display: flex;
+      justify-content: space-between;
+      gap: 22px;
+      align-items: flex-start;
+      margin-bottom: 34px;
+    }
+
+    .superintendent {
+      color: #23384d;
+      line-height: 1.5;
+    }
+
+    .letter-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ade-blue);
+      font-weight: 800;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .letter-logo .seal {
+      width: 54px;
+      height: 54px;
+      font-size: 0.84rem;
+    }
+
+    .letter-brand {
+      color: var(--ade-blue);
+      font-size: clamp(1.25rem, 2.6vw, 2.15rem);
+      line-height: 0.96;
+    }
+
+    .letter-brand small {
+      display: block;
+      font-size: 0.54em;
+      font-weight: 700;
+    }
+
+    .reason-heading {
+      font-weight: 800;
+      color: #2d3748;
+    }
+
+    .citation {
+      color: #27364f;
+      font-weight: 800;
+    }
+
+    .editable-token {
+      border-bottom: 1px dashed #7da4cc;
+      background: rgba(216, 236, 251, 0.55);
+      padding: 0 2px;
+      border-radius: 3px;
+    }
+
+    .letter-divider {
+      height: 1px;
+      background: #d6d6d6;
+      margin: 20px 0 14px;
+    }
+
+    .metric-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .metric {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px;
+      align-items: start;
+      padding: 9px 10px;
+      border: 1px solid var(--ade-gray-300);
+      border-radius: var(--radius-sm);
+      background: #ffffff;
+    }
+
+    .metric-mark {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: #ffffff;
+      background: var(--ade-gray-500);
+    }
+
+    .metric.ok .metric-mark {
+      background: var(--ade-green);
+    }
+
+    .metric.warn .metric-mark {
+      background: var(--ade-yellow);
+    }
+
+    .metric.bad .metric-mark {
+      background: var(--ade-red);
+    }
+
+    .metric strong {
+      display: block;
+      color: #222222;
+      line-height: 1.2;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 2px;
+      color: var(--ade-gray-500);
+      font-size: 0.82rem;
+    }
+
+    .summary-block {
+      margin-top: 14px;
+      border-top: 1px solid var(--ade-gray-200);
+      padding-top: 13px;
+    }
+
+    .summary-block h4 {
+      margin: 0 0 8px;
+      font-size: 0.95rem;
+    }
+
+    .summary-lines {
+      display: grid;
+      gap: 7px;
+      font-size: 0.86rem;
+    }
+
+    .summary-lines div {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 6px;
+    }
+
+    .summary-lines strong {
+      color: #222222;
+      text-align: right;
+    }
+
+    .staff-note {
+      background: var(--ade-yellow-soft);
+      border-left: 4px solid var(--ade-yellow);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 10px;
+      color: #57320f;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    .empty-state {
+      padding: 13px;
+      border: 1px dashed #bdbdbd;
+      border-radius: var(--radius-sm);
+      background: #fbfbfb;
+      color: #666666;
+      font-weight: 700;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 18, 66, 0.46);
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(940px, 96vw);
+      max-height: 92vh;
+      overflow: hidden;
+      box-shadow: 0 24px 52px rgba(0, 0, 0, 0.28);
+    }
+
+    .modal-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--ade-gray-200);
+    }
+
+    .modal-header h3 {
+      font-size: 1.2rem;
+    }
+
+    .modal-body {
+      padding: 16px;
+      max-height: calc(92vh - 72px);
+      overflow: auto;
+      background: #fbfbfb;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--ade-gray-200);
+    }
+
+    .reason-editor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .wide-field {
+      grid-column: 1 / -1;
+    }
+
+    .preview-paper {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: clamp(28px, 5vw, 52px);
+      color: #404a57;
+      border-color: #d8d8d8;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      min-width: min(360px, calc(100vw - 36px));
+      padding: 12px 14px;
+      color: #ffffff;
+      background: var(--ade-blue);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 16px 32px rgba(0, 18, 66, 0.24);
+      display: none;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 1260px) {
+      .workspace {
+        grid-template-columns: minmax(260px, 330px) minmax(420px, 1fr);
+      }
+
+      .right-panel {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .ade-nav,
+      .person-bar,
+      .evaluation-row {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .ade-nav {
+        display: grid;
+      }
+
+      .nav-left,
+      .nav-right,
+      .nav-menu,
+      .denial-header,
+      .service-header {
+        flex-wrap: wrap;
+      }
+
+      .nav-menu {
+        gap: 12px;
+      }
+
+      .service-grid,
+      .workspace,
+      .evaluation-row,
+      .reason-editor-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-grid {
+        padding: 0;
+      }
+
+      .doc-frame {
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        padding: 10px;
+      }
+
+      .person-name h1 {
+        font-size: 2rem;
+      }
+
+      .button-row,
+      .doc-toolbar {
+        align-items: stretch;
+      }
+
+      .button-row > *,
+      .doc-toolbar .button-row,
+      .doc-toolbar button,
+      .denial-header button {
+        width: 100%;
+      }
+
+      .two-col,
+      .tone-row {
+        grid-template-columns: 1fr;
+      }
+
+      .doc-paper,
+      .preview-paper {
+        padding: 22px;
+      }
+
+      .letterhead {
+        flex-direction: column;
+      }
+
+      .letter-logo {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="ade-nav">
+    <div class="nav-left">
+      <div class="agency-lockup">
+        <div class="seal" aria-hidden="true">AZ</div>
+        <div>
+          <div class="agency-name">Arizona Department of Education (79275)</div>
+          <div class="school-year">School Year 2025 - 2026</div>
+        </div>
+      </div>
+      <label class="top-search">
+        <span aria-hidden="true"></span>
+        <input type="search" value="Educator Search" aria-label="Educator Search">
+      </label>
+    </div>
+    <div class="nav-right">
+      <nav class="nav-menu" aria-label="Main navigation">
+        <button type="button">Home</button>
+        <button type="button">Service Items</button>
+        <button type="button">Educators</button>
+        <button type="button">Payments</button>
+        <button type="button">Discipline</button>
+        <button type="button">Lab</button>
+        <button type="button">Help</button>
+        <button type="button">Contacts</button>
+        <button type="button">Admin</button>
+      </nav>
+      <div class="user-dot" aria-label="Current user"></div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="person-bar" aria-labelledby="personName">
+      <div>
+        <div class="person-name">
+          <h1 id="personName">Smith, Agnes M</h1>
+          <span class="status-chip">PD Not Yet Required</span>
+          <span class="status-chip ghost-chip">Add Alert +</span>
+        </div>
+        <div class="person-meta">
+          <span>EIN: <span id="einValue">0421799</span></span>
+          <span>IVP Fingerprint: Not On File <span class="meta-dot" aria-hidden="true"></span></span>
+          <span>Current Employment: N/A</span>
+          <span>ADE Connect Account: N/A</span>
+        </div>
+      </div>
+      <button class="notes-button" type="button">Notes</button>
+    </section>
+
+    <section class="service-card" aria-labelledby="serviceDetailsHeading">
+      <div class="service-header">
+        <h2 id="serviceDetailsHeading">Service Item Details</h2>
+        <button class="outline-button" type="button">Actions</button>
+      </div>
+      <div class="service-grid">
+        <div>
+          <span class="field-label">Service Code</span>
+          <span class="field-value" id="serviceCode">Add Certificate</span>
+        </div>
+        <div>
+          <span class="field-label">Certificate</span>
+          <span class="field-value" id="certificateValue">Standard Site-Based Principal, PreK-12</span>
+        </div>
+        <div>
+          <span class="field-label">Certificate Level</span>
+          <span class="field-value" id="certificateLevel">Site-Based Certification</span>
+        </div>
+        <div>
+          <span class="field-label">Assigned User</span>
+          <span class="field-value">Test User</span>
+        </div>
+        <div>
+          <span class="field-label">Certification Path</span>
+          <span class="field-value" id="certificationPath">Not Selected</span>
+        </div>
+        <div>
+          <span class="field-label">Status</span>
+          <span class="field-value">Final SI Review</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="evaluation-row">
+      <div class="select-shell">
+        <label for="evaluationType">Evaluation Type</label>
+        <select id="evaluationType">
+          <option>Standard Site-Based Principal, PreK-12 Certificate</option>
+          <option>Full Literacy, K-5 Endorsement</option>
+          <option>Standard Professional Elementary K-8 Certificate</option>
+        </select>
+      </div>
+      <div></div>
+      <button class="outline-button" type="button">Review Application Documents</button>
+    </div>
+
+    <section class="denial-shell" aria-labelledby="denialHeading">
+      <div class="tabs" role="tablist" aria-label="Evaluation tabs">
+        <button class="tab" type="button">Administrative Requirements</button>
+        <button class="tab" type="button">Substantive Requirements</button>
+        <button class="tab active" type="button">Pending Denial Details</button>
+        <button class="tab" type="button">Educator Portal Preview</button>
+        <button class="tab" type="button">Evaluation Communication</button>
+      </div>
+
+      <div class="denial-content">
+        <div class="denial-header">
+          <div>
+            <h2 id="denialHeading">Denial Letter Details</h2>
+          </div>
+          <div class="button-row">
+            <button class="outline-button" type="button" id="previewTopButton">Preview Denial Letter</button>
+            <button class="outline-button" type="button" id="addReasonTopButton">Add Custom Denial Reason</button>
+          </div>
+        </div>
+
+        <div class="alert alert-danger" id="validationAlert">
+          There must be statutes assigned to this evaluation for each unsatisfied substantive requirement or a manual denial reason for the evaluation.
+        </div>
+        <p id="reasonLead">Based on the state of the evaluation, the following denial reasons will be included on the denial letter when the SI window expires.</p>
+
+        <div class="workspace">
+          <aside class="panel left-panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-kicker">Case configuration</div>
+                <h3>Educator Letter Data</h3>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="case-switcher">
+                <label>
+                  <span class="field-label">Educator</span>
+                  <select id="caseSelect"></select>
+                </label>
+                <div class="form-grid two-col">
+                  <label>
+                    <span class="field-label">Display Name</span>
+                    <input id="displayNameInput" type="text">
+                  </label>
+                  <label>
+                    <span class="field-label">Letter Name</span>
+                    <input id="letterNameInput" type="text">
+                  </label>
+                </div>
+                <div class="form-grid two-col">
+                  <label>
+                    <span class="field-label">Public Educator ID</span>
+                    <input id="publicIdInput" type="text">
+                  </label>
+                  <label>
+                    <span class="field-label">Letter Date</span>
+                    <input id="letterDateInput" type="date">
+                  </label>
+                </div>
+                <label>
+                  <span class="field-label">Credential</span>
+                  <input id="credentialInput" type="text">
+                </label>
+              </div>
+
+              <div class="summary-block">
+                <div class="panel-kicker">Denial reasons</div>
+                <div class="reason-list" id="reasonList"></div>
+                <div class="button-row reason-actions">
+                  <button class="outline-button" type="button" id="addReasonButton">Add Custom Reason</button>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <section class="panel letter-panel" aria-labelledby="letterEditorHeading">
+            <div class="doc-toolbar">
+              <div>
+                <div class="panel-kicker">Editable document</div>
+                <h3 id="letterEditorHeading">Denial Letter Draft</h3>
+              </div>
+              <div class="button-row">
+                <button class="quiet-button" type="button" id="saveDraftButton">Save Draft</button>
+                <button class="outline-button" type="button" id="generateButton">Generate From Data</button>
+                <button class="primary-button" type="button" id="previewButton">Preview Letter</button>
+              </div>
+            </div>
+            <div class="doc-frame">
+              <article class="doc-paper" id="documentPaper" contenteditable="true" aria-label="Editable denial letter draft"></article>
+            </div>
+          </section>
+
+          <aside class="panel right-panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-kicker">Staff controls</div>
+                <h3>Letter Readiness</h3>
+              </div>
+              <button class="quiet-button" type="button" id="resetButton">Reset Demo</button>
+            </div>
+            <div class="panel-body">
+              <label>
+                <span class="field-label">Communication Tone</span>
+                <div class="tone-row" id="toneButtons">
+                  <button class="tone-button" type="button" data-tone="formal">Formal</button>
+                  <button class="tone-button active" type="button" data-tone="supportive">Supportive</button>
+                  <button class="tone-button" type="button" data-tone="direct">Direct</button>
+                </div>
+              </label>
+
+              <div class="summary-block">
+                <h4>Status Checks</h4>
+                <div class="metric-list" id="metricList"></div>
+              </div>
+
+              <div class="summary-block">
+                <h4>Generated Packet</h4>
+                <div class="summary-lines" id="packetSummary"></div>
+              </div>
+
+              <div class="summary-block">
+                <h4>Certification Staff Note</h4>
+                <div class="staff-note" id="staffNote"></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="reasonModal" aria-hidden="true">
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="reasonModalTitle">
+      <div class="modal-header">
+        <h3 id="reasonModalTitle">Edit Denial Reason</h3>
+        <button class="icon-button" type="button" data-close-modal="reasonModal" aria-label="Close reason editor">x</button>
+      </div>
+      <div class="modal-body">
+        <form id="reasonForm">
+          <input type="hidden" id="reasonIdInput">
+          <div class="reason-editor-grid">
+            <label>
+              <span class="field-label">Reason Name</span>
+              <input id="reasonNameInput" type="text" required>
+            </label>
+            <label>
+              <span class="field-label">Citation</span>
+              <input id="citationInput" type="text">
+            </label>
+            <label class="wide-field">
+              <span class="field-label">Denial Detail</span>
+              <textarea id="detailInput" required></textarea>
+            </label>
+            <label class="wide-field">
+              <span class="field-label">Educator Support Language</span>
+              <textarea id="guidanceInput"></textarea>
+            </label>
+            <label class="wide-field">
+              <span class="field-label">Internal Staff Context</span>
+              <textarea id="staffContextInput"></textarea>
+            </label>
+            <label>
+              <span class="field-label">Included In Letter</span>
+              <select id="reasonIncludedInput">
+                <option value="true">Included</option>
+                <option value="false">Not Included</option>
+              </select>
+            </label>
+            <label>
+              <span class="field-label">Reason Type</span>
+              <select id="reasonTypeInput">
+                <option value="system">Substantive Requirement</option>
+                <option value="custom">Manual Denial Reason</option>
+              </select>
+            </label>
+          </div>
+          <div class="modal-footer">
+            <button class="quiet-button" type="button" data-close-modal="reasonModal">Cancel</button>
+            <button class="primary-button" type="submit">Save Reason</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="previewModal" aria-hidden="true">
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="previewModalTitle">
+      <div class="modal-header">
+        <h3 id="previewModalTitle">Denial Letter Preview</h3>
+        <div class="button-row">
+          <button class="outline-button" type="button" id="printButton">Print</button>
+          <button class="icon-button" type="button" data-close-modal="previewModal" aria-label="Close preview">x</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <article class="preview-paper" id="previewPaper"></article>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const STORAGE_KEY = "ade-denial-letter-customization-v1";
+
+    const defaultState = {
+      activeCaseId: "agnes-smith",
+      tone: "supportive",
+      lastSavedAt: "",
+      cases: [
+        {
+          id: "agnes-smith",
+          displayName: "Smith, Agnes M",
+          ein: "0421799",
+          letterName: "AGNES M SMITH",
+          publicId: "4597540",
+          letterDate: "2026-06-26",
+          noticeDate: "2026-04-27",
+          credential: "Standard Site-Based Principal, PreK-12",
+          serviceCode: "Add Certificate",
+          certificateLevel: "Site-Based Certification",
+          certificationPath: "Not Selected",
+          evaluationType: "Standard Site-Based Principal, PreK-12 Certificate",
+          appealDeadlineDays: 15,
+          contactPhone: "(602) 542-5057",
+          manualDraftHtml: "",
+          reasons: [
+            {
+              id: "sbp-admin",
+              type: "system",
+              included: true,
+              name: "Substantive requirement not satisfied",
+              citation: "A.A.C. R7-2-615 and A.R.S. Section 15-534.01(B)",
+              detail: "You did not submit documentation showing that all requirements for the Standard Site-Based Principal, PreK-12 certificate were met within 60 calendar days of the Department's notice dated 04/27/2026.",
+              guidance: "A future application may include updated district verification, coursework, assessment records, or other documentation that addresses the unmet requirement.",
+              staffContext: "This reason is tied to final SI review and can be edited before generation."
+            },
+            {
+              id: "sbp-path",
+              type: "system",
+              included: true,
+              name: "Certification path not confirmed",
+              citation: "A.A.C. R7-2-604",
+              detail: "The evaluation does not include a confirmed certification path for the requested site-based credential.",
+              guidance: "The educator may work with certification staff to determine which pathway and documents apply before resubmitting.",
+              staffContext: "Use this when path selection is the blocker rather than a single uploaded document."
+            }
+          ]
+        },
+        {
+          id: "nadia-moncrieffe",
+          displayName: "Moncrieffe, Nadia S",
+          ein: "1186032",
+          letterName: "NADIA S MONCRIEFFE",
+          publicId: "4597540",
+          letterDate: "2026-06-26",
+          noticeDate: "2026-04-27",
+          credential: "Full Literacy, K-5 Endorsement",
+          serviceCode: "Add Endorsement",
+          certificateLevel: "Endorsement",
+          certificationPath: "Coursework and Testing",
+          evaluationType: "Full Literacy, K-5 Endorsement",
+          appealDeadlineDays: 15,
+          contactPhone: "(602) 542-5057",
+          manualDraftHtml: "",
+          reasons: [
+            {
+              id: "literacy-score",
+              type: "system",
+              included: true,
+              name: "Literacy assessment evidence not received",
+              citation: "A.A.C. R7-2-615(U)(4)(iv) and A.R.S. Section 15-534.01(B)",
+              detail: "You failed to submit proof that you met the requirements for a Full Literacy, K-5 endorsement to the Department within 60 calendar days of the Department's notice dated 04/27/2026.",
+              guidance: "Specifically, you need to show proof of a passing score on the literacy instruction assessment approved by the Board for the Literacy, K through five endorsement.",
+              staffContext: "This mirrors the current sample denial letter and can be softened with plain-language next steps."
+            },
+            {
+              id: "literacy-superintendent",
+              type: "system",
+              included: false,
+              name: "Superintendent verification not provided",
+              citation: "A.A.C. R7-2-615(U)(5)",
+              detail: "The record does not include verification from an Arizona public school superintendent, principal, or personnel director that the applicant meets the literacy instruction requirements allowed under the alternate pathway.",
+              guidance: "If this pathway applies, the educator can request a signed verification letter from the appropriate Arizona public school administrator.",
+              staffContext: "Include only when the alternate verification pathway was selected or discussed."
+            }
+          ]
+        },
+        {
+          id: "connie-hirthe",
+          displayName: "Hirthe, Connie A",
+          ein: "0123456",
+          letterName: "CONNIE A HIRTHE",
+          publicId: "7204401",
+          letterDate: "2026-06-26",
+          noticeDate: "2026-05-03",
+          credential: "Standard Professional Elementary K-8",
+          serviceCode: "Add Certificate",
+          certificateLevel: "Standard Professional",
+          certificationPath: "Coursework and Testing",
+          evaluationType: "Standard Professional Elementary K-8 Certificate",
+          appealDeadlineDays: 15,
+          contactPhone: "(602) 542-5057",
+          manualDraftHtml: "",
+          reasons: [
+            {
+              id: "exam-report",
+              type: "system",
+              included: true,
+              name: "Passing exam score not verified",
+              citation: "A.A.C. R7-2-613",
+              detail: "The Department could not verify a passing score for the required elementary education exam before the review period ended.",
+              guidance: "A score report or official testing vendor transmission may be provided with a future application.",
+              staffContext: "Use when testing vendor lookup and uploaded documents do not show a passing score."
+            },
+            {
+              id: "transcript-hours",
+              type: "system",
+              included: true,
+              name: "Coursework hours incomplete",
+              citation: "A.A.C. R7-2-607",
+              detail: "The transcript review did not identify enough approved coursework hours to meet the selected pathway for the requested certificate.",
+              guidance: "The educator may submit updated official transcripts or select a different pathway if another route better reflects completed preparation.",
+              staffContext: "This should reference the pathway notes before final generation."
+            }
+          ]
+        }
+      ]
+    };
+
+    let state = loadState();
+    let activeReasonId = "";
+    let toastTimer = 0;
+
+    const els = {
+      personName: document.getElementById("personName"),
+      einValue: document.getElementById("einValue"),
+      serviceCode: document.getElementById("serviceCode"),
+      certificateValue: document.getElementById("certificateValue"),
+      certificateLevel: document.getElementById("certificateLevel"),
+      certificationPath: document.getElementById("certificationPath"),
+      evaluationType: document.getElementById("evaluationType"),
+      validationAlert: document.getElementById("validationAlert"),
+      reasonLead: document.getElementById("reasonLead"),
+      caseSelect: document.getElementById("caseSelect"),
+      displayNameInput: document.getElementById("displayNameInput"),
+      letterNameInput: document.getElementById("letterNameInput"),
+      publicIdInput: document.getElementById("publicIdInput"),
+      letterDateInput: document.getElementById("letterDateInput"),
+      credentialInput: document.getElementById("credentialInput"),
+      reasonList: document.getElementById("reasonList"),
+      documentPaper: document.getElementById("documentPaper"),
+      metricList: document.getElementById("metricList"),
+      packetSummary: document.getElementById("packetSummary"),
+      staffNote: document.getElementById("staffNote"),
+      toneButtons: document.getElementById("toneButtons"),
+      reasonModal: document.getElementById("reasonModal"),
+      reasonForm: document.getElementById("reasonForm"),
+      reasonModalTitle: document.getElementById("reasonModalTitle"),
+      reasonIdInput: document.getElementById("reasonIdInput"),
+      reasonNameInput: document.getElementById("reasonNameInput"),
+      citationInput: document.getElementById("citationInput"),
+      detailInput: document.getElementById("detailInput"),
+      guidanceInput: document.getElementById("guidanceInput"),
+      staffContextInput: document.getElementById("staffContextInput"),
+      reasonIncludedInput: document.getElementById("reasonIncludedInput"),
+      reasonTypeInput: document.getElementById("reasonTypeInput"),
+      previewModal: document.getElementById("previewModal"),
+      previewPaper: document.getElementById("previewPaper"),
+      toast: document.getElementById("toast")
+    };
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) {
+          return cloneDefaultState();
+        }
+        const parsed = JSON.parse(saved);
+        return normalizeState(parsed);
+      } catch (error) {
+        console.warn("Unable to load saved denial letter prototype state.", error);
+        return cloneDefaultState();
+      }
+    }
+
+    function normalizeState(candidate) {
+      const base = cloneDefaultState();
+      if (!candidate || !Array.isArray(candidate.cases)) {
+        return base;
+      }
+      return {
+        ...base,
+        ...candidate,
+        cases: candidate.cases.map((caseItem, index) => ({
+          ...(base.cases[index] || base.cases[0]),
+          ...caseItem,
+          reasons: Array.isArray(caseItem.reasons) ? caseItem.reasons : []
+        }))
+      };
+    }
+
+    function cloneDefaultState() {
+      return JSON.parse(JSON.stringify(defaultState));
+    }
+
+    function saveState(showMessage = true) {
+      state.lastSavedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      if (showMessage) {
+        showToast("Draft saved locally for this prototype.");
+      }
+    }
+
+    function getCase() {
+      return state.cases.find((caseItem) => caseItem.id === state.activeCaseId) || state.cases[0];
+    }
+
+    function getIncludedReasons(caseItem = getCase()) {
+      return caseItem.reasons.filter((reason) => reason.included);
+    }
+
+    function formatDate(dateValue) {
+      if (!dateValue) {
+        return "";
+      }
+      const parts = dateValue.split("-");
+      if (parts.length !== 3) {
+        return dateValue;
+      }
+      return `${parts[1]}/${parts[2]}/${parts[0]}`;
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getIntroText(caseItem) {
+      const credential = escapeHtml(caseItem.credential);
+      if (state.tone === "formal") {
+        return `Pursuant to A.R.S. Section 15-534.01(B), the Arizona Department of Education ("Department") hereby denies your application for a ${credential}. The grounds for denial are as follows:`;
+      }
+      if (state.tone === "direct") {
+        return `The Department is denying your application for a ${credential} because the record does not show that all required items were completed during the review window. The denial reasons are listed below.`;
+      }
+      return `The Arizona Department of Education ("Department") has completed its review of your application for a ${credential}. At this time, the Department must deny the application because the record does not show that all required items were completed during the review window. The details below are intended to identify the specific requirement and the documentation that may help with a future application.`;
+    }
+
+    function buildLetterHtml(caseItem) {
+      const includedReasons = getIncludedReasons(caseItem);
+      const reasonHtml = includedReasons.length
+        ? includedReasons.map((reason) => `
+          <p><span class="reason-heading">${escapeHtml(reason.name)}</span><br>
+          <span class="citation">${escapeHtml(reason.citation || "Manual denial reason")}</span><br>
+          ${escapeHtml(reason.detail)}</p>
+          ${reason.guidance ? `<p>${escapeHtml(reason.guidance)}</p>` : ""}
+        `).join("")
+        : `<p><span class="reason-heading">No denial reasons selected.</span><br>Add or select a denial reason before generating the final letter.</p>`;
+
+      return `
+        <div class="letterhead">
+          <div class="superintendent">
+            <p>Tom Horne<br>Superintendent of Public Instruction</p>
+            <p>${formatDate(caseItem.letterDate)}</p>
+          </div>
+          <div class="letter-logo" aria-label="Arizona Department of Education">
+            <div class="seal" aria-hidden="true">AZ</div>
+            <div class="letter-brand"><small>ARIZONA DEPARTMENT OF</small>EDUCATION</div>
+          </div>
+        </div>
+
+        <p>Regarding: Public Educator ID <span class="editable-token">#${escapeHtml(caseItem.publicId)}</span></p>
+
+        <p>Dear <span class="editable-token">${escapeHtml(caseItem.letterName)}</span>,</p>
+
+        <p>${getIntroText(caseItem)}</p>
+
+        ${reasonHtml}
+
+        <div class="letter-divider"></div>
+
+        <p>You have the right to appeal this denial pursuant to A.R.S. Section 15-534.01(E) by filing a written request for hearing before an advisory committee to the Board within ${escapeHtml(caseItem.appealDeadlineDays)} days from the date of receipt of this notice. The written request for hearing shall be sent to the following address:</p>
+
+        <p>Arizona State Board of Education<br>
+        1700 W. Washington<br>
+        Executive Tower Suite 300<br>
+        Phoenix, Arizona 85007</p>
+
+        <p>The link to the appeal packet is: https://azsbe.az.gov/resources/teacher-certification-appeals</p>
+
+        <p>If you have any questions regarding the appeals process, please contact the State Board of Education staff at ${escapeHtml(caseItem.contactPhone)}.</p>
+      `;
+    }
+
+    function render() {
+      const caseItem = getCase();
+      renderShell(caseItem);
+      renderCaseFields(caseItem);
+      renderReasons(caseItem);
+      renderDocument(caseItem);
+      renderReadiness(caseItem);
+      renderToneButtons();
+    }
+
+    function renderShell(caseItem) {
+      els.personName.textContent = caseItem.displayName;
+      els.einValue.textContent = caseItem.ein;
+      els.serviceCode.textContent = caseItem.serviceCode;
+      els.certificateValue.textContent = caseItem.credential;
+      els.certificateLevel.textContent = caseItem.certificateLevel;
+      els.certificationPath.textContent = caseItem.certificationPath;
+      els.evaluationType.value = caseItem.evaluationType;
+    }
+
+    function renderCaseFields(caseItem) {
+      els.caseSelect.innerHTML = state.cases
+        .map((item) => `<option value="${escapeHtml(item.id)}"${item.id === state.activeCaseId ? " selected" : ""}>${escapeHtml(item.displayName)}</option>`)
+        .join("");
+      els.displayNameInput.value = caseItem.displayName;
+      els.letterNameInput.value = caseItem.letterName;
+      els.publicIdInput.value = caseItem.publicId;
+      els.letterDateInput.value = caseItem.letterDate;
+      els.credentialInput.value = caseItem.credential;
+    }
+
+    function renderReasons(caseItem) {
+      if (!caseItem.reasons.length) {
+        els.reasonList.innerHTML = `<div class="empty-state">There are currently no denial reasons to include on the denial letter.</div>`;
+        return;
+      }
+
+      els.reasonList.innerHTML = caseItem.reasons.map((reason) => `
+        <div class="reason-item ${reason.included ? "selected" : ""} ${reason.type === "custom" ? "custom" : ""}">
+          <div class="reason-title-row">
+            <input type="checkbox" ${reason.included ? "checked" : ""} data-reason-toggle="${escapeHtml(reason.id)}" aria-label="Include ${escapeHtml(reason.name)}">
+            <div>
+              <div class="reason-name">${escapeHtml(reason.name)}</div>
+              <div class="reason-meta">${escapeHtml(reason.citation || "No citation assigned")} | ${reason.type === "custom" ? "Manual reason" : "Substantive requirement"}</div>
+            </div>
+            <button class="mini-button" type="button" data-edit-reason="${escapeHtml(reason.id)}">Edit</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderDocument(caseItem) {
+      els.documentPaper.innerHTML = caseItem.manualDraftHtml || buildLetterHtml(caseItem);
+    }
+
+    function renderReadiness(caseItem) {
+      const includedReasons = getIncludedReasons(caseItem);
+      const missingCitations = includedReasons.filter((reason) => !reason.citation.trim());
+      const supportCount = includedReasons.filter((reason) => reason.guidance.trim()).length;
+      const hasManual = caseItem.manualDraftHtml.trim().length > 0;
+
+      els.validationAlert.hidden = includedReasons.length > 0 && missingCitations.length === 0;
+      els.reasonLead.textContent = includedReasons.length
+        ? "Based on the state of the evaluation, these denial reasons will be included on the denial letter when the SI window expires."
+        : "There are currently no denial reasons to include on the denial letter.";
+
+      const metrics = [
+        {
+          status: includedReasons.length ? "ok" : "bad",
+          mark: includedReasons.length ? "OK" : "!",
+          title: `${includedReasons.length} reason${includedReasons.length === 1 ? "" : "s"} selected`,
+          detail: includedReasons.length ? "Selected reasons will flow into the generated letter." : "At least one denial reason is needed."
+        },
+        {
+          status: missingCitations.length ? "bad" : "ok",
+          mark: missingCitations.length ? "!" : "OK",
+          title: missingCitations.length ? `${missingCitations.length} citation gap${missingCitations.length === 1 ? "" : "s"}` : "Citations assigned",
+          detail: missingCitations.length ? "Assign a statute or manual reason citation before finalizing." : "Every included reason has a citation or manual label."
+        },
+        {
+          status: supportCount === includedReasons.length && includedReasons.length ? "ok" : "warn",
+          mark: supportCount === includedReasons.length && includedReasons.length ? "OK" : "-",
+          title: "Educator support language",
+          detail: supportCount ? `${supportCount} included reason${supportCount === 1 ? "" : "s"} include plain-language next steps.` : "Add next-step language when available."
+        },
+        {
+          status: hasManual ? "ok" : "warn",
+          mark: hasManual ? "OK" : "-",
+          title: hasManual ? "Document edited" : "Generated draft",
+          detail: hasManual ? "The current document includes staff edits." : "Use Generate From Data to refresh from configured fields."
+        }
+      ];
+
+      els.metricList.innerHTML = metrics.map((metric) => `
+        <div class="metric ${metric.status}">
+          <div class="metric-mark">${metric.mark}</div>
+          <div><strong>${escapeHtml(metric.title)}</strong><span>${escapeHtml(metric.detail)}</span></div>
+        </div>
+      `).join("");
+
+      els.packetSummary.innerHTML = `
+        <div><span>Educator</span><strong>${escapeHtml(caseItem.letterName)}</strong></div>
+        <div><span>Credential</span><strong>${escapeHtml(caseItem.credential)}</strong></div>
+        <div><span>Letter date</span><strong>${formatDate(caseItem.letterDate)}</strong></div>
+        <div><span>Tone</span><strong>${escapeHtml(capitalize(state.tone))}</strong></div>
+        <div><span>Saved</span><strong>${state.lastSavedAt ? new Date(state.lastSavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "Not yet"}</strong></div>
+      `;
+
+      const firstStaffNote = includedReasons.find((reason) => reason.staffContext.trim());
+      els.staffNote.textContent = firstStaffNote
+        ? firstStaffNote.staffContext
+        : "No internal staff context has been added for the selected denial reasons.";
+    }
+
+    function renderToneButtons() {
+      Array.from(els.toneButtons.querySelectorAll("[data-tone]")).forEach((button) => {
+        button.classList.toggle("active", button.dataset.tone === state.tone);
+      });
+    }
+
+    function capitalize(value) {
+      return value ? value.charAt(0).toUpperCase() + value.slice(1) : "";
+    }
+
+    function updateActiveCaseField(field, value) {
+      const caseItem = getCase();
+      caseItem[field] = value;
+      caseItem.manualDraftHtml = "";
+      saveState(false);
+      render();
+    }
+
+    function setActiveCaseField(field, value) {
+      const caseItem = getCase();
+      caseItem[field] = value;
+      caseItem.manualDraftHtml = "";
+      saveState(false);
+      renderShell(caseItem);
+      renderReadiness(caseItem);
+      if (field === "displayName") {
+        const selectedOption = Array.from(els.caseSelect.options).find((option) => option.value === caseItem.id);
+        if (selectedOption) {
+          selectedOption.textContent = value;
+        }
+      }
+    }
+
+    function openReasonEditor(reasonId = "") {
+      const caseItem = getCase();
+      const reason = reasonId
+        ? caseItem.reasons.find((item) => item.id === reasonId)
+        : {
+            id: `custom-${Date.now()}`,
+            type: "custom",
+            included: true,
+            name: "",
+            citation: "Manual denial reason",
+            detail: "",
+            guidance: "",
+            staffContext: ""
+          };
+
+      if (!reason) {
+        return;
+      }
+
+      activeReasonId = reason.id;
+      els.reasonModalTitle.textContent = reasonId ? "Edit Denial Reason" : "Add Custom Denial Reason";
+      els.reasonIdInput.value = reason.id;
+      els.reasonNameInput.value = reason.name;
+      els.citationInput.value = reason.citation;
+      els.detailInput.value = reason.detail;
+      els.guidanceInput.value = reason.guidance;
+      els.staffContextInput.value = reason.staffContext;
+      els.reasonIncludedInput.value = String(reason.included);
+      els.reasonTypeInput.value = reason.type;
+      openModal("reasonModal");
+      window.setTimeout(() => els.reasonNameInput.focus(), 50);
+    }
+
+    function saveReasonFromForm(event) {
+      event.preventDefault();
+      const caseItem = getCase();
+      const reason = {
+        id: els.reasonIdInput.value || `custom-${Date.now()}`,
+        name: els.reasonNameInput.value.trim(),
+        citation: els.citationInput.value.trim(),
+        detail: els.detailInput.value.trim(),
+        guidance: els.guidanceInput.value.trim(),
+        staffContext: els.staffContextInput.value.trim(),
+        included: els.reasonIncludedInput.value === "true",
+        type: els.reasonTypeInput.value
+      };
+
+      if (!reason.name || !reason.detail) {
+        showToast("Reason name and detail are required.");
+        return;
+      }
+
+      const index = caseItem.reasons.findIndex((item) => item.id === reason.id);
+      if (index >= 0) {
+        caseItem.reasons[index] = reason;
+      } else {
+        caseItem.reasons.push(reason);
+      }
+
+      caseItem.manualDraftHtml = "";
+      closeModal("reasonModal");
+      saveState(false);
+      render();
+      showToast("Denial reason updated.");
+    }
+
+    function toggleReason(reasonId, included) {
+      const caseItem = getCase();
+      const reason = caseItem.reasons.find((item) => item.id === reasonId);
+      if (!reason) {
+        return;
+      }
+      reason.included = included;
+      caseItem.manualDraftHtml = "";
+      saveState(false);
+      render();
+    }
+
+    function regenerateDocument() {
+      const caseItem = getCase();
+      caseItem.manualDraftHtml = "";
+      els.documentPaper.innerHTML = buildLetterHtml(caseItem);
+      saveState(false);
+      renderReadiness(caseItem);
+      showToast("Letter regenerated from configured fields.");
+    }
+
+    function saveManualDraft() {
+      const caseItem = getCase();
+      caseItem.manualDraftHtml = els.documentPaper.innerHTML;
+      saveState(true);
+      renderReadiness(caseItem);
+    }
+
+    function previewLetter() {
+      const caseItem = getCase();
+      caseItem.manualDraftHtml = els.documentPaper.innerHTML;
+      saveState(false);
+      els.previewPaper.innerHTML = els.documentPaper.innerHTML;
+      openModal("previewModal");
+    }
+
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function showToast(message) {
+      window.clearTimeout(toastTimer);
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      toastTimer = window.setTimeout(() => {
+        els.toast.classList.remove("show");
+      }, 2400);
+    }
+
+    function bindEvents() {
+      els.caseSelect.addEventListener("change", (event) => {
+        state.activeCaseId = event.target.value;
+        saveState(false);
+        render();
+      });
+
+      [
+        ["displayNameInput", "displayName"],
+        ["letterNameInput", "letterName"],
+        ["publicIdInput", "publicId"],
+        ["letterDateInput", "letterDate"],
+        ["credentialInput", "credential"]
+      ].forEach(([elementKey, field]) => {
+        els[elementKey].addEventListener("input", (event) => setActiveCaseField(field, event.target.value));
+        els[elementKey].addEventListener("change", (event) => setActiveCaseField(field, event.target.value));
+      });
+
+      els.evaluationType.addEventListener("change", (event) => {
+        updateActiveCaseField("evaluationType", event.target.value);
+      });
+
+      els.reasonList.addEventListener("click", (event) => {
+        const editButton = event.target.closest("[data-edit-reason]");
+        if (editButton) {
+          openReasonEditor(editButton.dataset.editReason);
+        }
+      });
+
+      els.reasonList.addEventListener("change", (event) => {
+        const toggle = event.target.closest("[data-reason-toggle]");
+        if (toggle) {
+          toggleReason(toggle.dataset.reasonToggle, toggle.checked);
+        }
+      });
+
+      document.getElementById("addReasonButton").addEventListener("click", () => openReasonEditor());
+      document.getElementById("addReasonTopButton").addEventListener("click", () => openReasonEditor());
+      document.getElementById("generateButton").addEventListener("click", regenerateDocument);
+      document.getElementById("saveDraftButton").addEventListener("click", saveManualDraft);
+      document.getElementById("previewButton").addEventListener("click", previewLetter);
+      document.getElementById("previewTopButton").addEventListener("click", previewLetter);
+      document.getElementById("printButton").addEventListener("click", () => window.print());
+      document.getElementById("resetButton").addEventListener("click", () => {
+        localStorage.removeItem(STORAGE_KEY);
+        state = cloneDefaultState();
+        activeReasonId = "";
+        render();
+        showToast("Demo data reset.");
+      });
+
+      els.toneButtons.addEventListener("click", (event) => {
+        const toneButton = event.target.closest("[data-tone]");
+        if (!toneButton) {
+          return;
+        }
+        state.tone = toneButton.dataset.tone;
+        getCase().manualDraftHtml = "";
+        saveState(false);
+        render();
+      });
+
+      els.documentPaper.addEventListener("input", () => {
+        const caseItem = getCase();
+        caseItem.manualDraftHtml = els.documentPaper.innerHTML;
+        saveState(false);
+        renderReadiness(caseItem);
+      });
+
+      els.reasonForm.addEventListener("submit", saveReasonFromForm);
+
+      document.querySelectorAll("[data-close-modal]").forEach((button) => {
+        button.addEventListener("click", () => closeModal(button.dataset.closeModal));
+      });
+
+      document.querySelectorAll(".modal-backdrop").forEach((modal) => {
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) {
+            closeModal(modal.id);
+          }
+        });
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeModal("reasonModal");
+          closeModal("previewModal");
+        }
+      });
+    }
+
+    bindEvents();
+    render();
+  </script>
+</body>
+</html>
