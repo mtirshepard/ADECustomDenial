@@ -485,7 +485,7 @@
 
     .workspace {
       display: grid;
-      grid-template-columns: minmax(260px, 340px) minmax(430px, 1fr) minmax(270px, 330px);
+      grid-template-columns: minmax(260px, 340px) minmax(430px, 1fr);
       gap: 14px;
       align-items: start;
       margin-top: 14px;
@@ -926,9 +926,6 @@
         grid-template-columns: minmax(260px, 330px) minmax(420px, 1fr);
       }
 
-      .right-panel {
-        grid-column: 1 / -1;
-      }
     }
 
     @media (max-width: 980px) {
@@ -1128,7 +1125,7 @@
         </div>
 
         <div class="alert alert-danger" id="validationAlert">
-          There must be statutes assigned to this evaluation for each unsatisfied substantive requirement or a manual denial reason for the evaluation.
+          There must be statute reference codes assigned to this evaluation for each unsatisfied substantive requirement or a manual denial reason for the evaluation.
         </div>
         <p id="reasonLead">Based on the state of the evaluation, the following denial reasons will be included on the denial letter when the SI window expires.</p>
 
@@ -1137,35 +1134,15 @@
             <div class="panel-header">
               <div>
                 <div class="panel-kicker">Case configuration</div>
-                <h3>Educator Letter Data</h3>
+                <h3>Letter Configuration</h3>
               </div>
             </div>
             <div class="panel-body">
               <div class="case-switcher">
                 <label>
-                  <span class="field-label">Educator</span>
-                  <select id="caseSelect"></select>
+                  <span class="field-label">Letter Date</span>
+                  <input id="letterDateInput" type="date">
                 </label>
-                <div class="form-grid two-col">
-                  <label>
-                    <span class="field-label">Display Name</span>
-                    <input id="displayNameInput" type="text">
-                  </label>
-                  <label>
-                    <span class="field-label">Letter Name</span>
-                    <input id="letterNameInput" type="text">
-                  </label>
-                </div>
-                <div class="form-grid two-col">
-                  <label>
-                    <span class="field-label">Public Educator ID</span>
-                    <input id="publicIdInput" type="text">
-                  </label>
-                  <label>
-                    <span class="field-label">Letter Date</span>
-                    <input id="letterDateInput" type="date">
-                  </label>
-                </div>
                 <label>
                   <span class="field-label">Credential</span>
                   <input id="credentialInput" type="text">
@@ -1190,6 +1167,7 @@
               </div>
               <div class="button-row">
                 <button class="quiet-button" type="button" id="saveDraftButton">Save Draft</button>
+                <button class="quiet-button" type="button" id="resetButton">Reset Demo</button>
                 <button class="outline-button" type="button" id="generateButton">Generate From Data</button>
                 <button class="primary-button" type="button" id="previewButton">Preview Letter</button>
               </div>
@@ -1199,40 +1177,6 @@
             </div>
           </section>
 
-          <aside class="panel right-panel">
-            <div class="panel-header">
-              <div>
-                <div class="panel-kicker">Staff controls</div>
-                <h3>Letter Readiness</h3>
-              </div>
-              <button class="quiet-button" type="button" id="resetButton">Reset Demo</button>
-            </div>
-            <div class="panel-body">
-              <label>
-                <span class="field-label">Communication Tone</span>
-                <div class="tone-row" id="toneButtons">
-                  <button class="tone-button" type="button" data-tone="formal">Formal</button>
-                  <button class="tone-button active" type="button" data-tone="supportive">Supportive</button>
-                  <button class="tone-button" type="button" data-tone="direct">Direct</button>
-                </div>
-              </label>
-
-              <div class="summary-block">
-                <h4>Status Checks</h4>
-                <div class="metric-list" id="metricList"></div>
-              </div>
-
-              <div class="summary-block">
-                <h4>Generated Packet</h4>
-                <div class="summary-lines" id="packetSummary"></div>
-              </div>
-
-              <div class="summary-block">
-                <h4>Certification Staff Note</h4>
-                <div class="staff-note" id="staffNote"></div>
-              </div>
-            </div>
-          </aside>
         </div>
       </div>
     </section>
@@ -1241,7 +1185,7 @@
   <div class="modal-backdrop" id="reasonModal" aria-hidden="true">
     <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="reasonModalTitle">
       <div class="modal-header">
-        <h3 id="reasonModalTitle">Edit Denial Reason</h3>
+        <h3 id="reasonModalTitle">Edit Denial Reason Details</h3>
         <button class="icon-button" type="button" data-close-modal="reasonModal" aria-label="Close reason editor">x</button>
       </div>
       <div class="modal-body">
@@ -1249,15 +1193,26 @@
           <input type="hidden" id="reasonIdInput">
           <div class="reason-editor-grid">
             <label>
-              <span class="field-label">Reason Name</span>
+              <span class="field-label">Statute Description</span>
               <input id="reasonNameInput" type="text" required>
             </label>
             <label>
-              <span class="field-label">Citation</span>
+              <span class="field-label">Statute Reference Code</span>
               <input id="citationInput" type="text">
             </label>
             <label class="wide-field">
-              <span class="field-label">Denial Detail</span>
+              <span class="field-label">Statute Denial Reason Options</span>
+              <select id="detailPresetInput">
+                <option value="">Select a pre-canned response</option>
+                <option value="The required documentation was not received within the Department's review window.">The required documentation was not received within the Department's review window.</option>
+                <option value="The submitted documentation does not demonstrate that the selected certification requirement has been met.">The submitted documentation does not demonstrate that the selected certification requirement has been met.</option>
+                <option value="The evaluation record does not include a valid assessment score or approved alternate verification.">The evaluation record does not include a valid assessment score or approved alternate verification.</option>
+                <option value="The selected certification pathway could not be confirmed from the application record.">The selected certification pathway could not be confirmed from the application record.</option>
+                <option value="The application record remains incomplete after the required notice period.">The application record remains incomplete after the required notice period.</option>
+              </select>
+            </label>
+            <label class="wide-field">
+              <span class="field-label">Statute Denial Reason</span>
               <textarea id="detailInput" required></textarea>
             </label>
             <label class="wide-field">
@@ -1265,22 +1220,8 @@
               <textarea id="guidanceInput"></textarea>
             </label>
             <label class="wide-field">
-              <span class="field-label">Internal Staff Context</span>
+              <span class="field-label">Evaluator Notes</span>
               <textarea id="staffContextInput"></textarea>
-            </label>
-            <label>
-              <span class="field-label">Included In Letter</span>
-              <select id="reasonIncludedInput">
-                <option value="true">Included</option>
-                <option value="false">Not Included</option>
-              </select>
-            </label>
-            <label>
-              <span class="field-label">Reason Type</span>
-              <select id="reasonTypeInput">
-                <option value="system">Substantive Requirement</option>
-                <option value="custom">Manual Denial Reason</option>
-              </select>
             </label>
           </div>
           <div class="modal-footer">
@@ -1297,6 +1238,7 @@
       <div class="modal-header">
         <h3 id="previewModalTitle">Denial Letter Preview</h3>
         <div class="button-row">
+          <button class="outline-button" type="button" id="revertPreviewButton">Revert to Original Values</button>
           <button class="outline-button" type="button" id="printButton">Print</button>
           <button class="icon-button" type="button" data-close-modal="previewModal" aria-label="Close preview">x</button>
         </div>
@@ -1451,29 +1393,20 @@
       evaluationType: document.getElementById("evaluationType"),
       validationAlert: document.getElementById("validationAlert"),
       reasonLead: document.getElementById("reasonLead"),
-      caseSelect: document.getElementById("caseSelect"),
-      displayNameInput: document.getElementById("displayNameInput"),
-      letterNameInput: document.getElementById("letterNameInput"),
-      publicIdInput: document.getElementById("publicIdInput"),
       letterDateInput: document.getElementById("letterDateInput"),
       credentialInput: document.getElementById("credentialInput"),
       reasonList: document.getElementById("reasonList"),
       documentPaper: document.getElementById("documentPaper"),
-      metricList: document.getElementById("metricList"),
-      packetSummary: document.getElementById("packetSummary"),
-      staffNote: document.getElementById("staffNote"),
-      toneButtons: document.getElementById("toneButtons"),
       reasonModal: document.getElementById("reasonModal"),
       reasonForm: document.getElementById("reasonForm"),
       reasonModalTitle: document.getElementById("reasonModalTitle"),
       reasonIdInput: document.getElementById("reasonIdInput"),
       reasonNameInput: document.getElementById("reasonNameInput"),
       citationInput: document.getElementById("citationInput"),
+      detailPresetInput: document.getElementById("detailPresetInput"),
       detailInput: document.getElementById("detailInput"),
       guidanceInput: document.getElementById("guidanceInput"),
       staffContextInput: document.getElementById("staffContextInput"),
-      reasonIncludedInput: document.getElementById("reasonIncludedInput"),
-      reasonTypeInput: document.getElementById("reasonTypeInput"),
       previewModal: document.getElementById("previewModal"),
       previewPaper: document.getElementById("previewPaper"),
       toast: document.getElementById("toast")
@@ -1569,7 +1502,7 @@
           ${escapeHtml(reason.detail)}</p>
           ${reason.guidance ? `<p>${escapeHtml(reason.guidance)}</p>` : ""}
         `).join("")
-        : `<p><span class="reason-heading">No denial reasons selected.</span><br>Add or select a denial reason before generating the final letter.</p>`;
+        : `<p><span class="reason-heading">No statute denial reasons selected.</span><br>Add or select a statute denial reason before generating the final letter.</p>`;
 
       return `
         <div class="letterhead">
@@ -1613,7 +1546,6 @@
       renderReasons(caseItem);
       renderDocument(caseItem);
       renderReadiness(caseItem);
-      renderToneButtons();
     }
 
     function renderShell(caseItem) {
@@ -1627,19 +1559,13 @@
     }
 
     function renderCaseFields(caseItem) {
-      els.caseSelect.innerHTML = state.cases
-        .map((item) => `<option value="${escapeHtml(item.id)}"${item.id === state.activeCaseId ? " selected" : ""}>${escapeHtml(item.displayName)}</option>`)
-        .join("");
-      els.displayNameInput.value = caseItem.displayName;
-      els.letterNameInput.value = caseItem.letterName;
-      els.publicIdInput.value = caseItem.publicId;
       els.letterDateInput.value = caseItem.letterDate;
       els.credentialInput.value = caseItem.credential;
     }
 
     function renderReasons(caseItem) {
       if (!caseItem.reasons.length) {
-        els.reasonList.innerHTML = `<div class="empty-state">There are currently no denial reasons to include on the denial letter.</div>`;
+        els.reasonList.innerHTML = `<div class="empty-state">There are currently no statute denial reasons to include on the denial letter.</div>`;
         return;
       }
 
@@ -1649,7 +1575,7 @@
             <input type="checkbox" ${reason.included ? "checked" : ""} data-reason-toggle="${escapeHtml(reason.id)}" aria-label="Include ${escapeHtml(reason.name)}">
             <div>
               <div class="reason-name">${escapeHtml(reason.name)}</div>
-              <div class="reason-meta">${escapeHtml(reason.citation || "No citation assigned")} | ${reason.type === "custom" ? "Manual reason" : "Substantive requirement"}</div>
+              <div class="reason-meta">${escapeHtml(reason.citation || "No statute reference code assigned")} | ${reason.type === "custom" ? "Manual statute reason" : "Substantive requirement"}</div>
             </div>
             <button class="mini-button" type="button" data-edit-reason="${escapeHtml(reason.id)}">Edit</button>
           </div>
@@ -1663,67 +1589,12 @@
 
     function renderReadiness(caseItem) {
       const includedReasons = getIncludedReasons(caseItem);
-      const missingCitations = includedReasons.filter((reason) => !reason.citation.trim());
-      const supportCount = includedReasons.filter((reason) => reason.guidance.trim()).length;
-      const hasManual = caseItem.manualDraftHtml.trim().length > 0;
+      const missingReferenceCodes = includedReasons.filter((reason) => !reason.citation.trim());
 
-      els.validationAlert.hidden = includedReasons.length > 0 && missingCitations.length === 0;
+      els.validationAlert.hidden = includedReasons.length > 0 && missingReferenceCodes.length === 0;
       els.reasonLead.textContent = includedReasons.length
         ? "Based on the state of the evaluation, these denial reasons will be included on the denial letter when the SI window expires."
-        : "There are currently no denial reasons to include on the denial letter.";
-
-      const metrics = [
-        {
-          status: includedReasons.length ? "ok" : "bad",
-          mark: includedReasons.length ? "OK" : "!",
-          title: `${includedReasons.length} reason${includedReasons.length === 1 ? "" : "s"} selected`,
-          detail: includedReasons.length ? "Selected reasons will flow into the generated letter." : "At least one denial reason is needed."
-        },
-        {
-          status: missingCitations.length ? "bad" : "ok",
-          mark: missingCitations.length ? "!" : "OK",
-          title: missingCitations.length ? `${missingCitations.length} citation gap${missingCitations.length === 1 ? "" : "s"}` : "Citations assigned",
-          detail: missingCitations.length ? "Assign a statute or manual reason citation before finalizing." : "Every included reason has a citation or manual label."
-        },
-        {
-          status: supportCount === includedReasons.length && includedReasons.length ? "ok" : "warn",
-          mark: supportCount === includedReasons.length && includedReasons.length ? "OK" : "-",
-          title: "Educator support language",
-          detail: supportCount ? `${supportCount} included reason${supportCount === 1 ? "" : "s"} include plain-language next steps.` : "Add next-step language when available."
-        },
-        {
-          status: hasManual ? "ok" : "warn",
-          mark: hasManual ? "OK" : "-",
-          title: hasManual ? "Document edited" : "Generated draft",
-          detail: hasManual ? "The current document includes staff edits." : "Use Generate From Data to refresh from configured fields."
-        }
-      ];
-
-      els.metricList.innerHTML = metrics.map((metric) => `
-        <div class="metric ${metric.status}">
-          <div class="metric-mark">${metric.mark}</div>
-          <div><strong>${escapeHtml(metric.title)}</strong><span>${escapeHtml(metric.detail)}</span></div>
-        </div>
-      `).join("");
-
-      els.packetSummary.innerHTML = `
-        <div><span>Educator</span><strong>${escapeHtml(caseItem.letterName)}</strong></div>
-        <div><span>Credential</span><strong>${escapeHtml(caseItem.credential)}</strong></div>
-        <div><span>Letter date</span><strong>${formatDate(caseItem.letterDate)}</strong></div>
-        <div><span>Tone</span><strong>${escapeHtml(capitalize(state.tone))}</strong></div>
-        <div><span>Saved</span><strong>${state.lastSavedAt ? new Date(state.lastSavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "Not yet"}</strong></div>
-      `;
-
-      const firstStaffNote = includedReasons.find((reason) => reason.staffContext.trim());
-      els.staffNote.textContent = firstStaffNote
-        ? firstStaffNote.staffContext
-        : "No internal staff context has been added for the selected denial reasons.";
-    }
-
-    function renderToneButtons() {
-      Array.from(els.toneButtons.querySelectorAll("[data-tone]")).forEach((button) => {
-        button.classList.toggle("active", button.dataset.tone === state.tone);
-      });
+        : "There are currently no statute denial reasons to include on the denial letter.";
     }
 
     function capitalize(value) {
@@ -1745,12 +1616,6 @@
       saveState(false);
       renderShell(caseItem);
       renderReadiness(caseItem);
-      if (field === "displayName") {
-        const selectedOption = Array.from(els.caseSelect.options).find((option) => option.value === caseItem.id);
-        if (selectedOption) {
-          selectedOption.textContent = value;
-        }
-      }
     }
 
     function openReasonEditor(reasonId = "") {
@@ -1773,15 +1638,16 @@
       }
 
       activeReasonId = reason.id;
-      els.reasonModalTitle.textContent = reasonId ? "Edit Denial Reason" : "Add Custom Denial Reason";
+      els.reasonModalTitle.textContent = reasonId ? "Edit Denial Reason Details" : "Add Custom Denial Reason";
       els.reasonIdInput.value = reason.id;
       els.reasonNameInput.value = reason.name;
       els.citationInput.value = reason.citation;
+      els.detailPresetInput.value = Array.from(els.detailPresetInput.options).some((option) => option.value === reason.detail)
+        ? reason.detail
+        : "";
       els.detailInput.value = reason.detail;
       els.guidanceInput.value = reason.guidance;
       els.staffContextInput.value = reason.staffContext;
-      els.reasonIncludedInput.value = String(reason.included);
-      els.reasonTypeInput.value = reason.type;
       openModal("reasonModal");
       window.setTimeout(() => els.reasonNameInput.focus(), 50);
     }
@@ -1789,6 +1655,7 @@
     function saveReasonFromForm(event) {
       event.preventDefault();
       const caseItem = getCase();
+      const existingReason = caseItem.reasons.find((item) => item.id === els.reasonIdInput.value);
       const reason = {
         id: els.reasonIdInput.value || `custom-${Date.now()}`,
         name: els.reasonNameInput.value.trim(),
@@ -1796,12 +1663,12 @@
         detail: els.detailInput.value.trim(),
         guidance: els.guidanceInput.value.trim(),
         staffContext: els.staffContextInput.value.trim(),
-        included: els.reasonIncludedInput.value === "true",
-        type: els.reasonTypeInput.value
+        included: existingReason ? existingReason.included : true,
+        type: existingReason ? existingReason.type : "custom"
       };
 
       if (!reason.name || !reason.detail) {
-        showToast("Reason name and detail are required.");
+        showToast("Statute description and statute denial reason are required.");
         return;
       }
 
@@ -1855,6 +1722,24 @@
       openModal("previewModal");
     }
 
+    function revertActiveCaseToOriginal() {
+      const defaultCase = defaultState.cases.find((caseItem) => caseItem.id === state.activeCaseId) || defaultState.cases[0];
+      const currentIndex = state.cases.findIndex((caseItem) => caseItem.id === state.activeCaseId);
+      const restoredCase = JSON.parse(JSON.stringify(defaultCase));
+      if (currentIndex >= 0) {
+        state.cases[currentIndex] = restoredCase;
+      } else {
+        state.cases.unshift(restoredCase);
+        state.activeCaseId = restoredCase.id;
+      }
+      restoredCase.manualDraftHtml = "";
+      saveState(false);
+      render();
+      els.previewPaper.innerHTML = buildLetterHtml(restoredCase);
+      openModal("previewModal");
+      showToast("Original values restored.");
+    }
+
     function openModal(id) {
       const modal = document.getElementById(id);
       modal.classList.add("open");
@@ -1877,16 +1762,7 @@
     }
 
     function bindEvents() {
-      els.caseSelect.addEventListener("change", (event) => {
-        state.activeCaseId = event.target.value;
-        saveState(false);
-        render();
-      });
-
       [
-        ["displayNameInput", "displayName"],
-        ["letterNameInput", "letterName"],
-        ["publicIdInput", "publicId"],
         ["letterDateInput", "letterDate"],
         ["credentialInput", "credential"]
       ].forEach(([elementKey, field]) => {
@@ -1918,6 +1794,7 @@
       document.getElementById("saveDraftButton").addEventListener("click", saveManualDraft);
       document.getElementById("previewButton").addEventListener("click", previewLetter);
       document.getElementById("previewTopButton").addEventListener("click", previewLetter);
+      document.getElementById("revertPreviewButton").addEventListener("click", revertActiveCaseToOriginal);
       document.getElementById("printButton").addEventListener("click", () => window.print());
       document.getElementById("resetButton").addEventListener("click", () => {
         localStorage.removeItem(STORAGE_KEY);
@@ -1927,15 +1804,10 @@
         showToast("Demo data reset.");
       });
 
-      els.toneButtons.addEventListener("click", (event) => {
-        const toneButton = event.target.closest("[data-tone]");
-        if (!toneButton) {
-          return;
+      els.detailPresetInput.addEventListener("change", (event) => {
+        if (event.target.value) {
+          els.detailInput.value = event.target.value;
         }
-        state.tone = toneButton.dataset.tone;
-        getCase().manualDraftHtml = "";
-        saveState(false);
-        render();
       });
 
       els.documentPaper.addEventListener("input", () => {
