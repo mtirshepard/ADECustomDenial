@@ -220,6 +220,18 @@
       margin-bottom: 12px;
     }
 
+    .person-actions {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .educator-switcher {
+      min-width: 270px;
+    }
+
     .person-name {
       display: flex;
       flex-wrap: wrap;
@@ -1055,7 +1067,13 @@
           <span>ADE Connect Account: N/A</span>
         </div>
       </div>
-      <button class="notes-button" type="button">Notes</button>
+      <div class="person-actions">
+        <label class="educator-switcher">
+          <span class="field-label">Educator</span>
+          <select id="caseSelect" aria-label="Educator"></select>
+        </label>
+        <button class="notes-button" type="button">Notes</button>
+      </div>
     </section>
 
     <section class="service-card" aria-labelledby="serviceDetailsHeading">
@@ -1118,10 +1136,6 @@
           <div>
             <h2 id="denialHeading">Denial Letter Details</h2>
           </div>
-          <div class="button-row">
-            <button class="outline-button" type="button" id="previewTopButton">Preview Denial Letter</button>
-            <button class="outline-button" type="button" id="addReasonTopButton">Add Custom Denial Reason</button>
-          </div>
         </div>
 
         <div class="alert alert-danger" id="validationAlert">
@@ -1152,9 +1166,6 @@
               <div class="summary-block">
                 <div class="panel-kicker">Denial reasons</div>
                 <div class="reason-list" id="reasonList"></div>
-                <div class="button-row reason-actions">
-                  <button class="outline-button" type="button" id="addReasonButton">Add Custom Reason</button>
-                </div>
               </div>
             </div>
           </aside>
@@ -1168,7 +1179,6 @@
               <div class="button-row">
                 <button class="quiet-button" type="button" id="saveDraftButton">Save Draft</button>
                 <button class="quiet-button" type="button" id="resetButton">Reset Demo</button>
-                <button class="outline-button" type="button" id="generateButton">Generate From Data</button>
                 <button class="primary-button" type="button" id="previewButton">Preview Letter</button>
               </div>
             </div>
@@ -1393,6 +1403,7 @@
       evaluationType: document.getElementById("evaluationType"),
       validationAlert: document.getElementById("validationAlert"),
       reasonLead: document.getElementById("reasonLead"),
+      caseSelect: document.getElementById("caseSelect"),
       letterDateInput: document.getElementById("letterDateInput"),
       credentialInput: document.getElementById("credentialInput"),
       reasonList: document.getElementById("reasonList"),
@@ -1559,6 +1570,9 @@
     }
 
     function renderCaseFields(caseItem) {
+      els.caseSelect.innerHTML = state.cases
+        .map((item) => `<option value="${escapeHtml(item.id)}"${item.id === state.activeCaseId ? " selected" : ""}>${escapeHtml(item.displayName)}</option>`)
+        .join("");
       els.letterDateInput.value = caseItem.letterDate;
       els.credentialInput.value = caseItem.credential;
     }
@@ -1762,6 +1776,12 @@
     }
 
     function bindEvents() {
+      els.caseSelect.addEventListener("change", (event) => {
+        state.activeCaseId = event.target.value;
+        saveState(false);
+        render();
+      });
+
       [
         ["letterDateInput", "letterDate"],
         ["credentialInput", "credential"]
@@ -1788,12 +1808,8 @@
         }
       });
 
-      document.getElementById("addReasonButton").addEventListener("click", () => openReasonEditor());
-      document.getElementById("addReasonTopButton").addEventListener("click", () => openReasonEditor());
-      document.getElementById("generateButton").addEventListener("click", regenerateDocument);
       document.getElementById("saveDraftButton").addEventListener("click", saveManualDraft);
       document.getElementById("previewButton").addEventListener("click", previewLetter);
-      document.getElementById("previewTopButton").addEventListener("click", previewLetter);
       document.getElementById("revertPreviewButton").addEventListener("click", revertActiveCaseToOriginal);
       document.getElementById("printButton").addEventListener("click", () => window.print());
       document.getElementById("resetButton").addEventListener("click", () => {
